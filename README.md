@@ -45,7 +45,7 @@ Firefox already has `Ctrl+L` (focus address bar / search) and `Ctrl+K` (focus se
 
 ## Passwords
 
-Firefox's built-in password manager is disabled by policy. Your external manager's extension is force-installed once its ID is added to `policies.json` (pending).
+Firefox's built-in password manager is disabled by policy. Password Boss is force-installed in both profiles (ID `passwordboss-v6@passwordboss.com`, add-on slug `passwordboss-webapp`). The ID was supplied by the owner and not yet verified against addons.mozilla.org: after install, check `about:policies` and `about:addons`. If it is missing, the ID or slug is wrong.
 
 ## Test
 

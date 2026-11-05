@@ -19,7 +19,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 
 ## Open questions
 
-- Which password manager? Its extension ID and AMO URL are needed for `policies.json`.
+- Verify the Password Boss extension ID and publisher against addons.mozilla.org (not reachable from the dev sandbox).
 - Decided: banking runs in a separate Firefox profile (`sk-bank`) with the same config, used for nothing else.
 
 ## Functional requirements
