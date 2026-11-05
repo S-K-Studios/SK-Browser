@@ -25,6 +25,23 @@ A personal, privacy- and security-focused browser: **stock Firefox + a small ver
 
 A Firefox update may remove the `distribution` folder; re-run the script if `about:policies` is empty.
 
+## Two profiles: daily and banking
+
+Create two profiles at `about:profiles`: `sk` (daily) and `sk-bank` (banking and financial sites only). Run the install script once per profile with its own `-ProfileDir`. Policies and extensions apply to both.
+
+Make a shortcut for each so they can run side by side and never mix cookies or sessions:
+
+```
+"C:\Program Files\Mozilla Firefox\firefox.exe" -P sk -no-remote
+"C:\Program Files\Mozilla Firefox\firefox.exe" -P sk-bank -no-remote
+```
+
+Rule: never browse anything else in `sk-bank`. Gmail stays in `sk`.
+
+## Passwords
+
+Firefox's built-in password manager is disabled by policy. Your external manager's extension is force-installed once its ID is added to `policies.json` (pending).
+
 ## Test
 
 ```powershell

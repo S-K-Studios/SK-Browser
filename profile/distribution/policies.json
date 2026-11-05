@@ -5,6 +5,7 @@
     "DisablePocket": true,
     "DisableFirefoxAccounts": true,
     "DontCheckDefaultBrowser": true,
+    "PasswordManagerEnabled": false,
     "EnableTrackingProtection": {
       "Value": true,
       "Locked": false,
