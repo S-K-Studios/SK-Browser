@@ -5,7 +5,6 @@
     "DisablePocket": true,
     "DisableFirefoxAccounts": true,
     "DontCheckDefaultBrowser": true,
-    "OfferToSaveLogins": false,
     "EnableTrackingProtection": {
       "Value": true,
       "Locked": false,
@@ -16,6 +15,16 @@
       "WebSuggestions": false,
       "SponsoredSuggestions": false,
       "ImproveSuggest": false,
+      "Locked": false
+    },
+    "FirefoxHome": {
+      "Search": true,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Stories": false,
       "Locked": false
     },
     "UserMessaging": {
