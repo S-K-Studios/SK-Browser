@@ -1,0 +1,48 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableFirefoxAccounts": true,
+    "DontCheckDefaultBrowser": true,
+    "PasswordManagerEnabled": false,
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": false,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+    "FirefoxSuggest": {
+      "WebSuggestions": false,
+      "SponsoredSuggestions": false,
+      "ImproveSuggest": false,
+      "Locked": false
+    },
+    "FirefoxHome": {
+      "Search": true,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Stories": false,
+      "Locked": false
+    },
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "SkipOnboarding": true,
+      "WhatsNew": false
+    },
+    "ExtensionSettings": {
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "passwordboss-v6@passwordboss.com": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/passwordboss-webapp/latest.xpi"
+      }
+    }
+  }
+}
