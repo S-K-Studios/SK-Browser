@@ -13,6 +13,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 ## Assumptions (unconfirmed, change if wrong)
 
 - A1: Windows is the primary platform.
+- A5: The scheduled task runs as SYSTEM, so its files must live only in `C:\Program Files\SK-Browser` (admin-only write).
 - A2: Gmail, banking and other sign-ins are used in this browser (confirmed).
 - A3: Passwords are handled by an external password manager (confirmed); Firefox's built-in manager is disabled by policy. The manager's browser extension is force-installed (see open questions).
 - A4: No Firefox Sync.
@@ -33,6 +34,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 | F5 | Private search engine as default (manual setting) | 1 |
 | F6 | Custom tab layout, shortcuts, theme, start page | 2 |
 | F6b | Separate `sk-bank` profile for banking only | 1 |
+| F6c | One-command setup, verify script, local start page, scheduled policy re-apply | 3 |
 | F7 | Companion extension for workflow features config cannot deliver | 3 |
 
 ## Non-functional requirements

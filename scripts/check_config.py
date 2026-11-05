@@ -59,8 +59,27 @@ def check_policies(path: Path) -> list[str]:
     return errors
 
 
+def check_start_page(path: Path) -> list[str]:
+    """Start page must be fully local: no scripts, no external resources."""
+    html = path.read_text()
+    errors = []
+    for pattern, why in [
+        (r"<script", "script tag"),
+        (r"\bsrc\s*=", "src attribute (external resource)"),
+        (r"<link\b", "link tag"),
+        (r"@import", "CSS @import"),
+        (r"url\(", "CSS url()"),
+    ]:
+        if re.search(pattern, html, re.I):
+            errors.append(f"{path.name}: forbidden {why}")
+    if "Content-Security-Policy" not in html:
+        errors.append(f"{path.name}: missing Content-Security-Policy meta tag")
+    return errors
+
+
 def main() -> int:
     errors = check_user_js(ROOT / "profile" / "user.js")
+    errors += check_start_page(ROOT / "profile" / "start" / "start.html")
     errors += check_policies(ROOT / "profile" / "distribution" / "policies.json")
     for e in errors:
         print("ERROR:", e)
