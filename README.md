@@ -1,36 +1,38 @@
 # SK-Browser
 
-A personal, privacy- and security-focused browser: **stock Firefox + versioned hardening config** ([ADR-0001](docs/adr/0001-use-hardened-firefox.md)).
+A personal, privacy- and security-focused browser: **stock Firefox + a small versioned config** ([ADR-0001](docs/adr/0001-use-hardened-firefox.md)). Minimal, fast, and Gmail/banking sign-in keeps working.
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
-| `profile/user.js` | Profile preferences (privacy, telemetry, HTTPS-only) |
-| `profile/distribution/policies.json` | Enforced policies and forced uBlock Origin install |
-| `scripts/check_config.py` | Validates the config (syntax, duplicates, forbidden prefs) |
-| `scripts/install.sh` | Copies config into a profile / Firefox install |
+| `profile/user.js` | Profile preferences not covered by policies or defaults |
+| `profile/distribution/policies.json` | Telemetry/sponsored content off, tracking protection, uBlock Origin forced |
+| `scripts/check_config.py` | Developer check: syntax, duplicates, forbidden prefs |
+| `scripts/install.ps1` | Windows installer |
 | `docs/` | Requirements and ADRs |
 
-## Install
+## Install (Windows)
 
-1. Install Firefox from Mozilla or your distro, so it keeps receiving security updates.
-2. Create a new profile at `about:profiles` and note its root directory.
-3. Close Firefox, then run:
-   ```bash
-   scripts/install.sh ~/.mozilla/firefox/<profile> /usr/lib/firefox   # sudo may be needed for the 2nd path
+1. Install Firefox from mozilla.org so it keeps auto-updating.
+2. Open `about:profiles`, create a profile (e.g. `sk`) and note its **Root Directory**.
+3. Close Firefox. In an **Administrator** PowerShell:
+   ```powershell
+   .\scripts\install.ps1 -ProfileDir "C:\Users\<you>\AppData\Roaming\Mozilla\Firefox\Profiles\<profile>"
    ```
-4. Start Firefox, check `about:policies`, and confirm uBlock Origin is installed.
-5. Manual step: set your default search engine in Settings > Search (a private engine of your choice).
+4. Start Firefox. Check `about:policies` and that uBlock Origin is installed.
+5. Manual: set your default search engine in Settings > Search.
+
+A Firefox update may remove the `distribution` folder; re-run the script if `about:policies` is empty.
 
 ## Test
 
-```bash
-python3 scripts/check_config.py
+```powershell
+python scripts/check_config.py   # developer check; needs Python
 ```
 
-Then check protection in a real browser with <https://coveryourtracks.eff.org>.
+Then check protection in the browser at <https://coveryourtracks.eff.org>.
 
 ## Status
 
-Phase 1 (hardened baseline) is implemented but **not yet tested in a real Firefox**. Pref names must be verified against your installed Firefox version at `about:config`, since Mozilla renames prefs over time. See `docs/requirements.md` for assumptions and roadmap.
+Phase 1 is written but **not yet tested in a real Firefox, and `install.ps1` has not been run on Windows**. Pref and policy names must be verified at `about:config` / `about:policies`, since Mozilla renames them over time. Assumptions and open questions: `docs/requirements.md`.
