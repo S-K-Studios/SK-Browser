@@ -14,13 +14,13 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 
 - A1: Windows is the primary platform.
 - A2: Gmail, banking and other sign-ins are used in this browser (confirmed).
-- A3: Passwords: not yet decided. Firefox's saved-password setting is left at default; see open questions.
+- A3: Passwords are handled by an external password manager (confirmed); Firefox's built-in manager is disabled by policy. The manager's browser extension is force-installed (see open questions).
 - A4: No Firefox Sync.
 
 ## Open questions
 
-- Password manager: use Firefox's built-in (set a Primary Password) or an external one?
-- Banking in a separate Firefox profile for extra isolation? (Optional, adds a little friction.)
+- Which password manager? Its extension ID and AMO URL are needed for `policies.json`.
+- Decided: banking runs in a separate Firefox profile (`sk-bank`) with the same config, used for nothing else.
 
 ## Functional requirements
 
@@ -32,6 +32,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 | F4 | Disable telemetry, studies, sponsored content and Pocket | 1 |
 | F5 | Private search engine as default (manual setting) | 1 |
 | F6 | Custom tab layout, shortcuts, theme, start page | 2 |
+| F6b | Separate `sk-bank` profile for banking only | 1 |
 | F7 | Companion extension for workflow features config cannot deliver | 3 |
 
 ## Non-functional requirements
