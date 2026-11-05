@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS  Install SK-Browser config into Firefox on Windows.
 .DESCRIPTION
-  - Copies user.js into the given Firefox profile folder.
+  - Copies user.js and chrome\userChrome.css into the given Firefox profile folder.
   - Copies policies.json into the Firefox install folder (needs an Administrator PowerShell).
 .EXAMPLE
   .\scripts\install.ps1 -ProfileDir "$env:APPDATA\Mozilla\Firefox\Profiles\abcd1234.sk"
@@ -25,6 +25,8 @@ $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIden
 if (-not $isAdmin) { throw "Run PowerShell as Administrator (needed to write to $InstallDir)." }
 
 Copy-Item "$root\profile\user.js" "$ProfileDir\user.js" -Force
+New-Item -ItemType Directory -Force "$ProfileDir\chrome" | Out-Null
+Copy-Item "$root\profile\chrome\userChrome.css" "$ProfileDir\chrome\userChrome.css" -Force
 New-Item -ItemType Directory -Force "$InstallDir\distribution" | Out-Null
 Copy-Item "$root\profile\distribution\policies.json" "$InstallDir\distribution\policies.json" -Force
 Write-Host "Done. Start Firefox and check about:policies."
