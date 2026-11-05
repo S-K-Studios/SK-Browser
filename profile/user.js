@@ -25,3 +25,13 @@ user_pref("media.peerconnection.ice.default_address_only", true);
 user_pref("network.prefetch-next", false);
 user_pref("network.dns.disablePrefetch", true);
 user_pref("network.predictor.enabled", false);
+
+// ---- Phase 2: UI (vertical tabs, minimal toolbar, dark theme) ----
+// Sidebar + vertical tabs (Firefox 136+; verify at about:config on your version).
+user_pref("sidebar.revamp", true);
+user_pref("sidebar.verticalTabs", true);
+// Required for profile/chrome/userChrome.css to load.
+user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+// Dark browser UI and dark preference for pages (0 = dark).
+user_pref("browser.theme.toolbar-theme", 0);
+user_pref("browser.theme.content-theme", 0);

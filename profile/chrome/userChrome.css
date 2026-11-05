@@ -1,0 +1,5 @@
+/* SK-Browser minimal toolbar. Keep this file tiny: every rule depends on Firefox's
+   internal UI IDs, which can change between versions. Verify after each Firefox update. */
+
+/* Sync is disabled by policy, so the account button is dead weight. */
+#fxa-toolbar-menu-button { display: none !important; }

@@ -7,6 +7,7 @@ A personal, privacy- and security-focused browser: **stock Firefox + a small ver
 | Path | Purpose |
 |---|---|
 | `profile/user.js` | Profile preferences not covered by policies or defaults |
+| `profile/chrome/userChrome.css` | Minimal toolbar tweaks (kept tiny on purpose) |
 | `profile/distribution/policies.json` | Telemetry/sponsored content off, tracking protection, uBlock Origin forced |
 | `scripts/check_config.py` | Developer check: syntax, duplicates, forbidden prefs |
 | `scripts/install.ps1` | Windows installer |
@@ -37,6 +38,10 @@ Make a shortcut for each so they can run side by side and never mix cookies or s
 ```
 
 Rule: never browse anything else in `sk-bank`. Gmail stays in `sk`.
+
+## Shortcuts
+
+Firefox already has `Ctrl+L` (focus address bar / search) and `Ctrl+K` (focus search). To jump between profiles, right-click each Firefox shortcut > Properties and set a **Shortcut key** (e.g. `Ctrl+Alt+D` for `sk`, `Ctrl+Alt+B` for `sk-bank`); Windows then launches that profile from anywhere. No extension needed, which keeps the setup minimal.
 
 ## Passwords
 
