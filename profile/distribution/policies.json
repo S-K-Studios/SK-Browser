@@ -6,6 +6,11 @@
     "DisableFirefoxAccounts": true,
     "DontCheckDefaultBrowser": true,
     "PasswordManagerEnabled": false,
+    "Homepage": {
+      "URL": "file:///C:/Program%20Files/SK-Browser/start.html",
+      "Locked": false,
+      "StartPage": "homepage"
+    },
     "EnableTrackingProtection": {
       "Value": true,
       "Locked": false,

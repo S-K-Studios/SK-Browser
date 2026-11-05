@@ -1,60 +1,58 @@
 # SK-Browser
 
-A personal, privacy- and security-focused browser: **stock Firefox + a small versioned config** ([ADR-0001](docs/adr/0001-use-hardened-firefox.md)). Minimal, fast, and Gmail/banking sign-in keeps working.
+A personal, privacy- and security-focused browser: **stock Firefox + a small versioned config** ([ADR-0001](docs/adr/0001-use-hardened-firefox.md)). Minimal, fast, and Gmail/banking sign-in keeps working. Engine security updates come from Mozilla.
+
+## What you get
+
+- Two isolated profiles: `sk` (daily, Gmail) and `sk-bank` (banking only), with hotkeys `Ctrl+Alt+D` / `Ctrl+Alt+B`
+- Tracker/ad blocking (uBlock Origin), HTTPS-only, cookie isolation, URL tracking-parameter stripping, fingerprinting protection, no telemetry/sponsored content
+- Password Boss extension; Firefox's built-in password manager is off
+- Vertical tabs, dark theme, minimal toolbar, local no-network start page
+- Auto-restore of policies if a Firefox update removes them
 
 ## Layout
 
 | Path | Purpose |
 |---|---|
 | `profile/user.js` | Profile preferences not covered by policies or defaults |
-| `profile/chrome/userChrome.css` | Minimal toolbar tweaks (kept tiny on purpose) |
-| `profile/distribution/policies.json` | Telemetry/sponsored content off, tracking protection, uBlock Origin forced |
-| `scripts/check_config.py` | Developer check: syntax, duplicates, forbidden prefs |
-| `scripts/install.ps1` | Windows installer |
-| `docs/` | Requirements and ADRs |
+| `profile/distribution/policies.json` | Enforced policies, forced extensions, homepage |
+| `profile/chrome/userChrome.css` | Minimal toolbar (kept tiny on purpose) |
+| `profile/start/start.html` | Local start page, no scripts or external resources |
+| `scripts/setup.ps1` | One-command Windows setup (admin) |
+| `scripts/verify.ps1` | Checks everything is applied |
+| `scripts/reapply.ps1`, `scripts/common.ps1` | Used by the scheduled task and the other scripts |
+| `scripts/check_config.py` | Developer check: syntax, duplicates, forbidden prefs, start page rules |
+| `docs/` | Requirements, ADRs, test checklist |
 
-## Install (Windows)
+## Setup (Windows)
 
-1. Install Firefox from mozilla.org so it keeps auto-updating.
-2. Open `about:profiles`, create a profile (e.g. `sk`) and note its **Root Directory**.
-3. Close Firefox. In an **Administrator** PowerShell:
+1. Install Firefox from mozilla.org (it then auto-updates).
+2. Open **PowerShell as Administrator** in this repo and run:
    ```powershell
-   .\scripts\install.ps1 -ProfileDir "C:\Users\<you>\AppData\Roaming\Mozilla\Firefox\Profiles\<profile>"
+   powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
    ```
-4. Start Firefox. Check `about:policies` and that uBlock Origin is installed.
-5. Manual: set your default search engine in Settings > Search.
+3. Launch each profile once from its shortcut (so extensions install), then close Firefox.
+4. Run `powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1`.
+5. Manual: set your default search engine in Settings > Search (the start page uses DuckDuckGo).
 
-A Firefox update may remove the `distribution` folder; re-run the script if `about:policies` is empty.
+Re-running `setup.ps1` is safe. Use `-SkipTask` to skip the scheduled task.
 
-## Two profiles: daily and banking
-
-Create two profiles at `about:profiles`: `sk` (daily) and `sk-bank` (banking and financial sites only). Run the install script once per profile with its own `-ProfileDir`. Policies and extensions apply to both.
-
-Make a shortcut for each so they can run side by side and never mix cookies or sessions:
-
-```
-"C:\Program Files\Mozilla Firefox\firefox.exe" -P sk -no-remote
-"C:\Program Files\Mozilla Firefox\firefox.exe" -P sk-bank -no-remote
-```
-
-Rule: never browse anything else in `sk-bank`. Gmail stays in `sk`.
-
-## Shortcuts
-
-Firefox already has `Ctrl+L` (focus address bar / search) and `Ctrl+K` (focus search). To jump between profiles, right-click each Firefox shortcut > Properties and set a **Shortcut key** (e.g. `Ctrl+Alt+D` for `sk`, `Ctrl+Alt+B` for `sk-bank`); Windows then launches that profile from anywhere. No extension needed, which keeps the setup minimal.
+Rule: never browse anything but banking in `sk-bank`; Gmail stays in `sk`.
 
 ## Passwords
 
-Firefox's built-in password manager is disabled by policy. Password Boss is force-installed in both profiles (ID `passwordboss-v6@passwordboss.com`, add-on slug `passwordboss-webapp`). The ID was supplied by the owner and not yet verified against addons.mozilla.org: after install, check `about:policies` and `about:addons`. If it is missing, the ID or slug is wrong.
+Password Boss (`passwordboss-v6@passwordboss.com`) is force-installed in both profiles. The ID was supplied by the owner and not independently verified; `verify.ps1` reports if it did not install. To switch to another manager, replace the entry in `policies.json` and remove the old extension by hand. Keep only one manager installed.
 
-## Test
+## Limits
+
+- Custom new-tab pages can't be set by policy without an extension, so new tabs use Firefox's plain search-only Home. The local start page is the homepage.
+- No setup prevents all tracking; your IP stays visible to sites.
+- Everything here is **untested on a real Windows/Firefox until you run `docs/test-checklist.md`**.
+
+## Developer check
 
 ```powershell
-python scripts/check_config.py   # developer check; needs Python
+python scripts/check_config.py
 ```
 
-Then check protection in the browser at <https://coveryourtracks.eff.org>.
-
-## Status
-
-Phase 1 is written but **not yet tested in a real Firefox, and `install.ps1` has not been run on Windows**. Pref and policy names must be verified at `about:config` / `about:policies`, since Mozilla renames them over time. Assumptions and open questions: `docs/requirements.md`.
+Then check protection at <https://coveryourtracks.eff.org>.
