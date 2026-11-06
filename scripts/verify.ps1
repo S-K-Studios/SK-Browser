@@ -29,7 +29,7 @@ elseif ((Get-FileHash $target).Hash -ne (Get-FileHash "$root\profile\distributio
 if (Test-Path "$PayloadDir\start.html") { Report 'PASS' 'start page installed' } else { Report 'FAIL' 'start page missing' }
 
 # Scheduled task
-if (Get-ScheduledTask -TaskName 'SK-Browser-Reapply' -ErrorAction SilentlyContinue) { Report 'PASS' 're-apply task registered' }
+if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) { Report 'PASS' 're-apply task registered' }
 else { Report 'WARN' 're-apply task not registered' }
 
 # Expected prefs from the repo user.js

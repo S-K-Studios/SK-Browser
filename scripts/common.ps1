@@ -3,6 +3,12 @@
 $script:PayloadDir = Join-Path $env:ProgramFiles 'SK-Browser'   # admin-only write by default
 $script:ProfileNames = @('sk', 'sk-bank')
 $script:Extensions = @('uBlock0@raymondhill.net', 'passwordboss-v6@passwordboss.com')
+$script:TaskName = 'SK-Browser-Reapply'
+$script:ShortcutLabels = @{ 'sk' = 'SK Browser'; 'sk-bank' = 'SK Browser (Banking)' }
+
+function Get-ShortcutFolders {
+    @([Environment]::GetFolderPath('Desktop'), (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'))
+}
 
 function Get-FirefoxDir {
     foreach ($d in @("$env:ProgramFiles\Mozilla Firefox", "${env:ProgramFiles(x86)}\Mozilla Firefox")) {

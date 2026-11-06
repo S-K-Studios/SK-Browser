@@ -43,11 +43,9 @@ foreach ($name in $ProfileNames) {
 # 4. Shortcuts (hotkeys only work for shortcuts on the Desktop or Start Menu)
 $shell = New-Object -ComObject WScript.Shell
 $hotkeys = @{ 'sk' = 'CTRL+ALT+D'; 'sk-bank' = 'CTRL+ALT+B' }
-$labels = @{ 'sk' = 'SK Browser'; 'sk-bank' = 'SK Browser (Banking)' }
-$folders = @([Environment]::GetFolderPath('Desktop'), (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'))
 foreach ($name in $ProfileNames) {
-    foreach ($folder in $folders) {
-        $lnk = $shell.CreateShortcut((Join-Path $folder "$($labels[$name]).lnk"))
+    foreach ($folder in Get-ShortcutFolders) {
+        $lnk = $shell.CreateShortcut((Join-Path $folder "$($ShortcutLabels[$name]).lnk"))
         $lnk.TargetPath = "$firefox\firefox.exe"
         $lnk.Arguments = "-P $name -no-remote"
         $lnk.Hotkey = $hotkeys[$name]
@@ -63,9 +61,9 @@ if (-not $SkipTask) {
         -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$PayloadDir\reapply.ps1`""
     $triggers = @((New-ScheduledTaskTrigger -AtStartup), (New-ScheduledTaskTrigger -Daily -At '12:00'))
     $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -RunLevel Highest
-    Register-ScheduledTask -TaskName 'SK-Browser-Reapply' -Action $action -Trigger $triggers `
+    Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $triggers `
         -Principal $principal -Force | Out-Null
-    Write-Host "Scheduled task 'SK-Browser-Reapply' registered"
+    Write-Host "Scheduled task '$TaskName' registered"
 }
 
 Write-Host "`nDone. Launch each profile once (so extensions install), close it, then run scripts\verify.ps1"

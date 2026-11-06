@@ -20,6 +20,7 @@ A personal, privacy- and security-focused browser: **stock Firefox + a small ver
 | `profile/start/start.html` | Local start page, no scripts or external resources |
 | `scripts/setup.ps1` | One-command Windows setup (admin) |
 | `scripts/verify.ps1` | Checks everything is applied |
+| `scripts/uninstall.ps1` | Removes the setup (keeps your profiles unless told otherwise) |
 | `scripts/reapply.ps1`, `scripts/common.ps1` | Used by the scheduled task and the other scripts |
 | `scripts/check_config.py` | Developer check: syntax, duplicates, forbidden prefs, start page rules |
 | `docs/` | Requirements, ADRs, test checklist |
@@ -42,6 +43,17 @@ Rule: never browse anything but banking in `sk-bank`; Gmail stays in `sk`.
 ## Passwords
 
 Password Boss (`passwordboss-v6@passwordboss.com`) is force-installed in both profiles. The ID was supplied by the owner and not independently verified; `verify.ps1` reports if it did not install. To switch to another manager, replace the entry in `policies.json` and remove the old extension by hand. Keep only one manager installed.
+
+## Uninstall
+
+Close Firefox, then in an **Administrator** PowerShell. Preview first, then run it:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\uninstall.ps1 -WhatIf
+powershell -ExecutionPolicy Bypass -File .\scripts\uninstall.ps1
+```
+
+It removes the scheduled task, `policies.json` (only if it is SK-Browser's copy; `-Force` overrides), the shortcuts, `user.js`/`userChrome.css`, the prefs SK-Browser set in each profile's `prefs.js` (backup saved as `prefs.js.sk-backup`) and `C:\Program Files\SK-Browser`. Your profiles and their data are **kept**; add `-RemoveProfiles` to delete them (you must type `DELETE`). Firefox itself and the extensions stay; remove those in `about:addons`.
 
 ## Limits
 

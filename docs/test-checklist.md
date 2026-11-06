@@ -30,5 +30,12 @@ Nothing in this repo has been run on Windows or in Firefox. Work through this in
 - [ ] Task Scheduler has `SK-Browser-Reapply`
 - [ ] Rename `distribution\policies.json` in the Firefox folder, run the task, confirm it returns
 
+## 6. Uninstall (only when you are done testing, or want a clean re-run)
+- [ ] `uninstall.ps1 -WhatIf` lists only SK-Browser items and changes nothing
+- [ ] `uninstall.ps1` removes the task, shortcuts, `C:\Program Files\SK-Browser` and `policies.json`
+- [ ] Profiles `sk` / `sk-bank` still exist and open; vertical tabs/dark theme settings are gone
+- [ ] `prefs.js.sk-backup` exists in each profile
+- [ ] Re-running `setup.ps1` afterwards works
+
 ## Report back
 Send me: failed items, `verify.ps1` output, and any error text. I'll fix the scripts.
