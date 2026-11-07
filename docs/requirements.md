@@ -21,7 +21,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 ## Open questions
 
 - Verify the Password Boss extension ID and publisher against addons.mozilla.org (not reachable from the dev sandbox).
-- Decided: banking runs in a separate Firefox profile (`sk-bank`) with the same config, used for nothing else.
+- Decided: banking runs in a separate Firefox profile (`SK-Bank`) with the same config, used for nothing else.
 
 ## Functional requirements
 
@@ -33,7 +33,7 @@ A fast, quiet, private browser configured around how I work. Built as a hardened
 | F4 | Disable telemetry, studies, sponsored content and Pocket | 1 |
 | F5 | Private search engine as default (manual setting) | 1 |
 | F6 | Custom tab layout, shortcuts, theme, start page | 2 |
-| F6b | Separate `sk-bank` profile for banking only | 1 |
+| F6b | Separate `SK-Bank` profile for banking only | 1 |
 | F6c | One-command setup, verify script, local start page, scheduled policy re-apply | 3 |
 | F7 | Companion extension for workflow features config cannot deliver | 3 |
 

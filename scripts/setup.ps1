@@ -3,8 +3,8 @@
 .DESCRIPTION
   1. Copies policies, start page and re-apply script to C:\Program Files\SK-Browser (admin-only write).
   2. Applies policies to the Firefox install.
-  3. Creates profiles 'sk' and 'sk-bank' (if missing) and installs user.js + userChrome.css.
-  4. Creates Desktop and Start Menu shortcuts with hotkeys (Ctrl+Alt+D = sk, Ctrl+Alt+B = sk-bank).
+  3. Uses profiles 'SK-1' and 'SK-Bank' (creates them only if missing) and installs user.js + userChrome.css.
+  4. Creates Desktop and Start Menu shortcuts with hotkeys (Ctrl+Alt+D = SK-1, Ctrl+Alt+B = SK-Bank).
   5. Registers a scheduled task that restores policies.json if Firefox removes it.
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
@@ -42,7 +42,7 @@ foreach ($name in $ProfileNames) {
 
 # 4. Shortcuts (hotkeys only work for shortcuts on the Desktop or Start Menu)
 $shell = New-Object -ComObject WScript.Shell
-$hotkeys = @{ 'sk' = 'CTRL+ALT+D'; 'sk-bank' = 'CTRL+ALT+B' }
+$hotkeys = @{ 'SK-1' = 'CTRL+ALT+D'; 'SK-Bank' = 'CTRL+ALT+B' }
 foreach ($name in $ProfileNames) {
     foreach ($folder in Get-ShortcutFolders) {
         $lnk = $shell.CreateShortcut((Join-Path $folder "$($ShortcutLabels[$name]).lnk"))
@@ -53,7 +53,7 @@ foreach ($name in $ProfileNames) {
         $lnk.Save()
     }
 }
-Write-Host "Shortcuts created (Ctrl+Alt+D = sk, Ctrl+Alt+B = sk-bank)"
+Write-Host "Shortcuts created (Ctrl+Alt+D = SK-1, Ctrl+Alt+B = SK-Bank)"
 
 # 5. Re-apply task
 if (-not $SkipTask) {

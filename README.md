@@ -4,7 +4,7 @@ A personal, privacy- and security-focused browser: **stock Firefox + a small ver
 
 ## What you get
 
-- Two isolated profiles: `sk` (daily, Gmail) and `sk-bank` (banking only), with hotkeys `Ctrl+Alt+D` / `Ctrl+Alt+B`
+- Two isolated profiles: `SK-1` (daily, Gmail) and `SK-Bank` (banking only), with hotkeys `Ctrl+Alt+D` / `Ctrl+Alt+B`
 - Tracker/ad blocking (uBlock Origin), HTTPS-only, cookie isolation, URL tracking-parameter stripping, fingerprinting protection, no telemetry/sponsored content
 - Password Boss extension; Firefox's built-in password manager is off
 - Vertical tabs, dark theme, minimal toolbar, local no-network start page
@@ -36,9 +36,11 @@ A personal, privacy- and security-focused browser: **stock Firefox + a small ver
 4. Run `powershell -ExecutionPolicy Bypass -File .\scripts\verify.ps1`.
 5. Manual: set your default search engine in Settings > Search (the start page uses DuckDuckGo).
 
+If a Firefox profile named `SK-1` or `SK-Bank` already exists (see `about:profiles`), the setup reuses it and keeps its data; it only creates the missing one.
+
 Re-running `setup.ps1` is safe. Use `-SkipTask` to skip the scheduled task.
 
-Rule: never browse anything but banking in `sk-bank`; Gmail stays in `sk`.
+Rule: never browse anything but banking in `SK-Bank`; Gmail stays in `SK-1`.
 
 ## Passwords
 

@@ -11,7 +11,7 @@
   Profiles and their data (cookies, history, bookmarks) are KEPT unless you pass -RemoveProfiles.
   Firefox itself is not uninstalled. Extensions installed by policy stay installed but become
   normal extensions you can remove in about:addons.
-.PARAMETER RemoveProfiles  Also delete the 'sk' and 'sk-bank' profile folders (asks you to type DELETE).
+.PARAMETER RemoveProfiles  Also delete the 'SK-1' and 'SK-Bank' profile folders (asks you to type DELETE).
 .PARAMETER Force           Remove policies.json even if it differs from SK-Browser's copy.
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File .\scripts\uninstall.ps1 -WhatIf     # preview only
@@ -74,6 +74,12 @@ foreach ($name in $ProfileNames) {
     if (-not $dir) { Write-Host "Profile '$name' not found (skipped)"; continue }
 
     if ($RemoveProfiles) {
+        # profiles.ini can point anywhere; only ever delete inside Firefox's own Profiles folder.
+        $allowed = Join-Path $env:APPDATA 'Mozilla\Firefox\Profiles\'
+        if (-not ($dir + '\').StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) {
+            Write-Warning "Profile '$name' is outside $allowed; not deleting. Remove it in about:profiles."
+            continue
+        }
         if ($WhatIfPreference) { Write-Host "What if: would delete profile folder $dir"; continue }
         $answer = Read-Host "Permanently delete profile '$name' ($dir) including its cookies, history and bookmarks? Type DELETE to confirm"
         if ($answer -ceq 'DELETE') {
@@ -112,4 +118,4 @@ if (Test-Path $PayloadDir) {
 }
 
 Write-Host "`nDone. Firefox itself is untouched. Remove Password Boss / uBlock Origin in about:addons if you no longer want them."
-if (-not $RemoveProfiles) { Write-Host "Profiles 'sk' and 'sk-bank' were kept. Re-run with -RemoveProfiles to delete them." }
+if (-not $RemoveProfiles) { Write-Host "Profiles 'SK-1' and 'SK-Bank' were kept. Re-run with -RemoveProfiles to delete them." }
