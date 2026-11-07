@@ -44,9 +44,15 @@ foreach ($name in $ProfileNames) {
 
     if (-not (Test-Path "$dir\prefs.js")) { Report 'WARN' "[$name] prefs.js not found: launch this profile once, then re-run"; continue }
     $prefs = Get-Content "$dir\prefs.js"
+    # Firefox does not save a pref to prefs.js when its value equals Firefox's own default,
+    # so a missing pref is only a WARN. If NONE are present, user.js is not being loaded: FAIL.
     $missing = @($expected | Where-Object { $prefs -notcontains $_ })
     if ($missing.Count -eq 0) { Report 'PASS' "[$name] all $($expected.Count) prefs applied" }
-    else { $missing | ForEach-Object { Report 'FAIL' "[$name] pref not applied: $_" } }
+    elseif ($missing.Count -eq $expected.Count) { Report 'FAIL' "[$name] none of the prefs were applied (user.js not loaded?)" }
+    else {
+        Report 'PASS' "[$name] $($expected.Count - $missing.Count) of $($expected.Count) prefs applied"
+        $missing | ForEach-Object { Report 'WARN' "[$name] not saved in prefs.js (probably equals Firefox's default; check about:config): $_" }
+    }
 
     $extFile = "$dir\extensions.json"
     if (-not (Test-Path $extFile)) { Report 'WARN' "[$name] extensions.json not found: launch profile once"; continue }
