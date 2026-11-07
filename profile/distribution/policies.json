@@ -46,7 +46,7 @@
       },
       "passwordboss4ff@passwordboss.com": {
         "installation_mode": "force_installed",
-        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/passwordboss-webapp/latest.xpi"
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/password-boss/latest.xpi"
       }
     }
   }
