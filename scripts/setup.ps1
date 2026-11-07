@@ -3,8 +3,8 @@
 .DESCRIPTION
   1. Copies policies, start page and re-apply script to C:\Program Files\SK-Browser (admin-only write).
   2. Applies policies to the Firefox install.
-  3. Creates profiles 'sk' and 'sk-bank' (if missing) and installs user.js + userChrome.css.
-  4. Creates Desktop and Start Menu shortcuts with hotkeys (Ctrl+Alt+D = sk, Ctrl+Alt+B = sk-bank).
+  3. Uses profiles 'SK-1' and 'SK-Bank' (creates them only if missing) and installs user.js + userChrome.css.
+  4. Creates Desktop and Start Menu shortcuts with hotkeys (Ctrl+Alt+D = SK-1, Ctrl+Alt+B = SK-Bank).
   5. Registers a scheduled task that restores policies.json if Firefox removes it.
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File .\scripts\setup.ps1
@@ -42,12 +42,10 @@ foreach ($name in $ProfileNames) {
 
 # 4. Shortcuts (hotkeys only work for shortcuts on the Desktop or Start Menu)
 $shell = New-Object -ComObject WScript.Shell
-$hotkeys = @{ 'sk' = 'CTRL+ALT+D'; 'sk-bank' = 'CTRL+ALT+B' }
-$labels = @{ 'sk' = 'SK Browser'; 'sk-bank' = 'SK Browser (Banking)' }
-$folders = @([Environment]::GetFolderPath('Desktop'), (Join-Path $env:APPDATA 'Microsoft\Windows\Start Menu\Programs'))
+$hotkeys = @{ 'SK-1' = 'CTRL+ALT+D'; 'SK-Bank' = 'CTRL+ALT+B' }
 foreach ($name in $ProfileNames) {
-    foreach ($folder in $folders) {
-        $lnk = $shell.CreateShortcut((Join-Path $folder "$($labels[$name]).lnk"))
+    foreach ($folder in Get-ShortcutFolders) {
+        $lnk = $shell.CreateShortcut((Join-Path $folder "$($ShortcutLabels[$name]).lnk"))
         $lnk.TargetPath = "$firefox\firefox.exe"
         $lnk.Arguments = "-P $name -no-remote"
         $lnk.Hotkey = $hotkeys[$name]
@@ -55,7 +53,7 @@ foreach ($name in $ProfileNames) {
         $lnk.Save()
     }
 }
-Write-Host "Shortcuts created (Ctrl+Alt+D = sk, Ctrl+Alt+B = sk-bank)"
+Write-Host "Shortcuts created (Ctrl+Alt+D = SK-1, Ctrl+Alt+B = SK-Bank)"
 
 # 5. Re-apply task
 if (-not $SkipTask) {
@@ -63,9 +61,9 @@ if (-not $SkipTask) {
         -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$PayloadDir\reapply.ps1`""
     $triggers = @((New-ScheduledTaskTrigger -AtStartup), (New-ScheduledTaskTrigger -Daily -At '12:00'))
     $principal = New-ScheduledTaskPrincipal -UserId 'SYSTEM' -RunLevel Highest
-    Register-ScheduledTask -TaskName 'SK-Browser-Reapply' -Action $action -Trigger $triggers `
+    Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $triggers `
         -Principal $principal -Force | Out-Null
-    Write-Host "Scheduled task 'SK-Browser-Reapply' registered"
+    Write-Host "Scheduled task '$TaskName' registered"
 }
 
 Write-Host "`nDone. Launch each profile once (so extensions install), close it, then run scripts\verify.ps1"
