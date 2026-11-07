@@ -2,7 +2,7 @@
 
 $script:PayloadDir = Join-Path $env:ProgramFiles 'SK-Browser'   # admin-only write by default
 $script:ProfileNames = @('SK-1', 'SK-Bank')
-$script:Extensions = @('uBlock0@raymondhill.net', 'passwordboss-v6@passwordboss.com')
+$script:Extensions = @('uBlock0@raymondhill.net', 'passwordboss4ff@passwordboss.com')
 $script:TaskName = 'SK-Browser-Reapply'
 $script:ShortcutLabels = @{ 'SK-1' = 'SK Browser'; 'SK-Bank' = 'SK Browser (Banking)' }
 

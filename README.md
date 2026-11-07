@@ -44,7 +44,7 @@ Rule: never browse anything but banking in `SK-Bank`; Gmail stays in `SK-1`.
 
 ## Passwords
 
-Password Boss (`passwordboss-v6@passwordboss.com`) is force-installed in both profiles. The ID was supplied by the owner and not independently verified; `verify.ps1` reports if it did not install. To switch to another manager, replace the entry in `policies.json` and remove the old extension by hand. Keep only one manager installed.
+Password Boss (`passwordboss4ff@passwordboss.com`) is force-installed in both profiles. The ID was supplied by the owner and not independently verified; `verify.ps1` reports if it did not install. To switch to another manager, replace the entry in `policies.json` and remove the old extension by hand. Keep only one manager installed.
 
 ## Uninstall
 
