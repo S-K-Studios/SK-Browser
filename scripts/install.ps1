@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS  Install SK-Browser config into Firefox on Windows.
 .DESCRIPTION
+  Publisher: SK Studios (Personal Use Only). Version: see VERSION (MAJOR.MINOR.PATCH.BUILD.ISSUE).
   - Copies user.js into the given Firefox profile folder.
   - Copies policies.json into the Firefox install folder (needs an Administrator PowerShell).
 .EXAMPLE

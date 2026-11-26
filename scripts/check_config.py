@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Validate profile/user.js and profile/distribution/policies.json.
 
-Checks: syntax of each user_pref line, no duplicate prefs, every pref has a
+Publisher: SK Studios (Personal Use Only)
+Checks: VERSION is 5-part, syntax of each user_pref line, no duplicate prefs, every pref has a
 preceding comment section, no forbidden (security-weakening) prefs, valid JSON.
 """
 import json
@@ -59,8 +60,24 @@ def check_policies(path: Path) -> list[str]:
     return errors
 
 
+VERSION_RE = re.compile(r"^\d+\.\d+\.\d+\.\d+\.\d+$")
+
+
+def read_version(path: Path) -> str:
+    """Return VERSION (MAJOR.MINOR.PATCH.BUILD.ISSUE) or raise ValueError."""
+    version = path.read_text().strip()
+    if not VERSION_RE.match(version):
+        raise ValueError(f"{path.name}: '{version}' is not 5-part MAJOR.MINOR.PATCH.BUILD.ISSUE")
+    return version
+
+
 def main() -> int:
-    errors = check_user_js(ROOT / "profile" / "user.js")
+    errors = []
+    try:
+        read_version(ROOT / "VERSION")
+    except (ValueError, OSError) as e:
+        errors.append(str(e))
+    errors += check_user_js(ROOT / "profile" / "user.js")
     errors += check_policies(ROOT / "profile" / "distribution" / "policies.json")
     for e in errors:
         print("ERROR:", e)

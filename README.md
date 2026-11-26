@@ -1,5 +1,7 @@
 # SK-Browser
 
+Version `0.1.0.0.0` (`MAJOR.MINOR.PATCH.BUILD.ISSUE`, see `VERSION`, `CLAUDE.md`, `CHANGELOG.md`) · Publisher: SK Studios (Personal Use Only)
+
 A personal, privacy- and security-focused browser: **stock Firefox + a small versioned config** ([ADR-0001](docs/adr/0001-use-hardened-firefox.md)). Minimal, fast, and Gmail/banking sign-in keeps working.
 
 ## Layout
@@ -46,6 +48,7 @@ Firefox's built-in password manager is disabled by policy. Your external manager
 
 ```powershell
 python scripts/check_config.py   # developer check; needs Python
+python scripts/build.py          # builds dist/SK-Browser-<VERSION>.zip
 ```
 
 Then check protection in the browser at <https://coveryourtracks.eff.org>.

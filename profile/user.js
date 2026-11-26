@@ -1,3 +1,4 @@
+// Publisher: SK Studios (Personal Use Only) | Version: see VERSION
 // SK-Browser user.js — only what policies.json and Firefox defaults don't already cover.
 // Deliberately NOT set (they break Gmail/banking sign-in): resistFingerprinting,
 // blocking all third-party cookies, forcing DoH. Never disable sandbox, Safe Browsing or updates.
